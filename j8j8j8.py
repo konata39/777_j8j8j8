@@ -54,8 +54,8 @@ for k in range(65):
     if k == 63:
         print(f'63條線: 如果開出這個選項請打爆老蘇光頭 bbssDj')
     else:
-        print(f'{k}條線: {od[k] * 100 / total_prob:.20f}%')
+        print(f'{k}條線: {all_result[k] * 100 / total_prob:.20f}%')
 print("====================================")
-print(f'3+條線機率: {(total_prob - od[0] - od[1] - od[2]) * 100 / total_prob:.20f}%')
-print(f'4+條線機率: {(total_prob - od[0] - od[1] - od[2] - od[3]) * 100 / total_prob:.20f}%')
-print(f'5+條線機率: {(total_prob - od[0] - od[1] - od[2] - od[3] * od[4]) * 100 / total_prob:.20f}%')
+print(f'3+條線機率: {(total_prob - all_result[0] - all_result[1] - all_result[2]) * 100 / total_prob:.20f}%')
+print(f'4+條線機率: {(total_prob - all_result[0] - all_result[1] - all_result[2] - all_result[3]) * 100 / total_prob:.20f}%')
+print(f'5+條線機率: {(total_prob - all_result[0] - all_result[1] - all_result[2] - all_result[3] - all_result[4]) * 100 / total_prob:.20f}%')
