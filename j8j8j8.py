@@ -1,5 +1,6 @@
 import random
-
+import itertools
+import collections
 def check_line(a):
     line = 0
     for i in range(3):
@@ -13,57 +14,43 @@ def check_line(a):
         line += 1
     return line
 
-zero = 0
-one = 0
-two = 0
-three = 0
-four = 0
-five = 0
-six = 0
-eight = 0
+def list_1D_to_2D(l):
+    return [l[i:i+3] for i in range(0, 8, 3)]
+
+all_event = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 list_set = [7, 1, 2, 3, 4, 5, 6]
-board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-for _1 in list_set:
-    board[0][0] = _1
-    for _2 in list_set:
-        board[0][1] = _2
-        for _3 in list_set:
-            board[0][2] = _3
-            for _4 in list_set:
-                board[1][0] = _4
-                for _5 in list_set:
-                    board[1][1] = _5
-                    for _6 in list_set:
-                        board[1][2] = _6
-                        for _7 in list_set:
-                            board[2][0] = _7
-                            for _8 in list_set:
-                                board[2][1] = _8
-                                for _9 in list_set:
-                                    board[2][2] = _9
-                                    total_line = check_line(board)
-                                    if total_line == 0:
-                                        zero += 1
-                                    elif total_line == 1:
-                                        one += 1
-                                    elif total_line == 2:
-                                        two += 1
-                                    elif total_line == 3:
-                                        three += 1
-                                    elif total_line == 4:
-                                        four += 1
-                                    elif total_line == 5:
-                                        five += 1
-                                    elif total_line == 6:
-                                        six += 1
-                                    elif total_line == 8:
-                                        eight += 1
-print("0條: ", zero / 7 ** 9)
-print("1條: ", one / 7 ** 9)
-print(two / 7 ** 9)
-print(three / 7 ** 9)
-print(four / 7 ** 9)
-print(five / 7 ** 9)
-print(six / 7 ** 9)
-print(eight / 7 ** 9)
+r = itertools.product(list_set, repeat=9)
+for i in r:
+    board = list_1D_to_2D(list(i))
+    total_line = check_line(board)
+    all_event[total_line] += 1
+for idx, val in enumerate(r):
+    if idx == 7:
+        print(f"7條: 你能生出七條除非你老爸變成兔子")
+    else:
+        print(f"{idx}條: {all_event[idx] * 100 / 7 ** 9:f} %")
+
+print()
+print("=========以下為8個門總計結果=========")
+total_prob = (7 ** 9) ** 8
+all_line = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+all_combine = zip(all_line, all_event, )
+all_result = {}
+r = itertools.product(all_combine, repeat=8)
+for i in r:
+    #print(i)
+    line_sum = 0
+    event_sum = 1
+    for door in range(len(i)):
+        line_sum += i[door][0]
+        event_sum *= i[door][1]
+    if event_sum == 0:
+        continue
+    if line_sum not in all_result:
+        all_result[line_sum] = event_sum
+    else:
+        all_result[line_sum] += event_sum
+od = collections.OrderedDict(sorted(all_result.items()))
+for k, v in od.items():
+    print(f'{k}條線: {v * 100 / total_prob:.10f}%')
