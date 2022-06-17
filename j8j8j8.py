@@ -1,6 +1,5 @@
 import random
 import itertools
-import collections
 def check_line(a):
     line = 0
     for i in range(3):
@@ -25,7 +24,7 @@ for i in r:
     board = list_1D_to_2D(list(i))
     total_line = check_line(board)
     all_event[total_line] += 1
-for idx, val in enumerate(r):
+for idx, val in enumerate(all_event):
     if idx == 7:
         print(f"7條: 你能生出七條除非你老爸變成兔子")
     else:
@@ -51,6 +50,12 @@ for i in r:
         all_result[line_sum] = event_sum
     else:
         all_result[line_sum] += event_sum
-od = collections.OrderedDict(sorted(all_result.items()))
-for k, v in od.items():
-    print(f'{k}條線: {v * 100 / total_prob:.10f}%')
+for k in range(65):
+    if k == 63:
+        print(f'63條線: 如果開出這個選項請打爆老蘇光頭 bbssDj')
+    else:
+        print(f'{k}條線: {od[k] * 100 / total_prob:.20f}%')
+print("====================================")
+print(f'3+條線機率: {(total_prob - od[0] - od[1] - od[2]) * 100 / total_prob:.20f}%')
+print(f'4+條線機率: {(total_prob - od[0] - od[1] - od[2] - od[3]) * 100 / total_prob:.20f}%')
+print(f'5+條線機率: {(total_prob - od[0] - od[1] - od[2] - od[3] * od[4]) * 100 / total_prob:.20f}%')
